@@ -6,8 +6,33 @@
     <title>Twitter OAuth Demo</title>
 </head>
 <body>
-    <h1>Twitter OAuth Callback</h1>
-    <p>This is a demo site for handling Twitter OAuth callback.</p>
+    <h1>Twitter OAuth Authorization</h1>
+    <p>Please authorize the app by visiting the following URL:</p>
+    <a href="https://api.twitter.com/oauth/authorize?oauth_token=your_oauth_token_here" target="_blank">
+        Authorize App
+    </a>
+
+    <div id="status"></div>
+
+    <script>
+        // Function to get the oauth_verifier from the URL
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '=([^&]*)');
+            var results = regex.exec(url);
+            return results ? decodeURIComponent(results[1].replace(/\+/g, ' ')) : '';
+        }
+
+        // Check if oauth_verifier is in the URL (after authorization)
+        var oauth_verifier = getParameterByName('oauth_verifier');
+        
+        if (oauth_verifier) {
+            document.getElementById("status").innerText = "Authentication successful! oauth_verifier: " + oauth_verifier;
+            // You can send this oauth_verifier to your backend server to exchange for access tokens
+        } else {
+            document.getElementById("status").innerText = "Please authorize the app and come back here.";
+        }
+    </script>
 </body>
 </html>
-<!-- Write your comments here -->
